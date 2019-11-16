@@ -79,5 +79,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SevenSegment\SevenSegment.csproj">
+      <Project>{00DB5A9C-12D3-43B0-9E4A-D9ECA873F5C9}</Project>
+      <Name>SevenSegment</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

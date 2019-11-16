@@ -39,7 +39,6 @@ namespace DmitryBrant.CustomControls
         private Color colorLight = Color.Red;
         private bool showDot = true;
         private Padding elementPadding;
-
         private string theValue = null;
 
         public SevenSegmentArray()
@@ -180,5 +179,15 @@ namespace DmitryBrant.CustomControls
             }
         }
 
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // SevenSegmentArray
+            // 
+            this.Name = "SevenSegmentArray";
+            this.ResumeLayout(false);
+
+        }
     }
 }
