@@ -28,20 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.sevenSegmentArrayCountdown = new DmitryBrant.CustomControls.SevenSegmentArray();
             this.password = new System.Windows.Forms.TextBox();
+            this.timerCountDown = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // sevenSegmentArrayCountdown
             // 
             this.sevenSegmentArrayCountdown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.sevenSegmentArrayCountdown.ArrayCount = 6;
+            this.sevenSegmentArrayCountdown.ArrayCount = 8;
             this.sevenSegmentArrayCountdown.ColorBackground = System.Drawing.Color.Black;
             this.sevenSegmentArrayCountdown.ColorDark = System.Drawing.Color.DimGray;
             this.sevenSegmentArrayCountdown.ColorLight = System.Drawing.Color.Red;
             this.sevenSegmentArrayCountdown.DecimalShow = true;
-            this.sevenSegmentArrayCountdown.ElementPadding = new System.Windows.Forms.Padding(12, 5, 28, 5);
+            this.sevenSegmentArrayCountdown.ElementPadding = new System.Windows.Forms.Padding(8, 5, 19, 5);
             this.sevenSegmentArrayCountdown.ElementWidth = 11;
             this.sevenSegmentArrayCountdown.ItalicFactor = 0.01F;
             this.sevenSegmentArrayCountdown.Location = new System.Drawing.Point(0, 0);
@@ -53,6 +55,7 @@
             // 
             // password
             // 
+            this.password.BackColor = System.Drawing.Color.DimGray;
             this.password.Font = new System.Drawing.Font("Verdana Pro Cond", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.password.Location = new System.Drawing.Point(45, 230);
             this.password.MaxLength = 4;
@@ -65,10 +68,15 @@
             this.password.TextChanged += new System.EventHandler(this.password_TextChanged);
             this.password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.password_KeyPress);
             // 
+            // timerCountDown
+            // 
+            this.timerCountDown.Tick += new System.EventHandler(this.timerCountDown_Tick);
+            // 
             // BombForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1902, 1022);
             this.ControlBox = false;
             this.Controls.Add(this.password);
@@ -96,6 +104,7 @@
 
         private DmitryBrant.CustomControls.SevenSegmentArray sevenSegmentArrayCountdown;
         private System.Windows.Forms.TextBox password;
+        private System.Windows.Forms.Timer timerCountDown;
     }
 }
 

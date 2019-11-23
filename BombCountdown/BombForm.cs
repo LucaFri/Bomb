@@ -14,7 +14,10 @@ namespace BombCountdown
     {
         #region Campi privati
 
-        bool _firstTime;
+        bool _firstTime = true;
+        TimeSpan _ts;
+        DateTime _start;
+        DateTime _end;
 
         #endregion        
 
@@ -25,11 +28,13 @@ namespace BombCountdown
             this.Location = Screen.AllScreens[1].WorkingArea.Location;
             Point startLocationCentralSevenSegment = GetCentralPoint(sevenSegmentArrayCountdown);
             sevenSegmentArrayCountdown.Location = startLocationCentralSevenSegment;
-            sevenSegmentArrayCountdown.Value = "35.56";
+            //sevenSegmentArrayCountdown.Value = "35.568";
             Point startLocationCentralTextBox = GetCentralPoint(password);
             password.Location = new Point(startLocationCentralTextBox.X, startLocationCentralTextBox.Y
                 + sevenSegmentArrayCountdown.Height + 30);
+            AvviaCountdown(1);
         }
+
         #endregion
 
         #region Metodi privati
@@ -38,6 +43,24 @@ namespace BombCountdown
             return new Point((this.Width / 2) - control.Width / 2,
                 (this.Height / 2) - control.Height / 2);
         }
+        private void AvviaCountdown(int min = 0, int ore = 0)
+        {
+            if (min + ore == 0) throw new Exception("Countdown non impostato");
+            _start = DateTime.Now;
+            _end = _start.AddSeconds(15);
+            _end = _start.AddMinutes(min).AddHours(ore);
+            timerCountDown.Start();
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         #endregion
 
         #region Eventi
@@ -93,12 +116,37 @@ namespace BombCountdown
         {
             if (password.Text == "1234")
             {
+                timerCountDown.Stop();
                 MessageBox.Show("Bravo hai trovato la password!!!");
             }
         }
 
+
         #endregion
 
         #endregion
+
+        private void timerCountDown_Tick(object sender, EventArgs e)
+        {
+            if (_end > DateTime.Now)
+            {
+                _ts = _end - DateTime.Now;
+                sevenSegmentArrayCountdown.Value = _ts.ToString(@"hh\.mm\.ss\.ff");
+            }
+            else
+            {
+                sevenSegmentArrayCountdown.Value = "00.00.00.00";
+                timerCountDown.Stop();
+                if (_firstTime)
+                {
+                    _firstTime = false;
+                    AvviaCountdown(4,1);
+                }
+                else
+                {
+                    MessageBox.Show("Boooooooom");
+                }
+            }
+        }
     }
 }
