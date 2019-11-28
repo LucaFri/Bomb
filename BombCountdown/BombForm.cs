@@ -12,6 +12,7 @@ namespace BombCountdown
 {
     public partial class BombForm : Form
     {
+
         #region Campi privati
 
         bool _firstTime = true;
@@ -19,12 +20,37 @@ namespace BombCountdown
         DateTime _start;
         DateTime _end;
 
+        int _durataOreCountdown1;
+        int _durataMinutiCountdown1;
+        int _durataOreCountdown2;
+        int _durataMinutiCountdown2;
+        string _password;
+
         #endregion        
 
         #region Costruttori
         public BombForm()
         {
             InitializeComponent();
+            ConfigForm configForm = new ConfigForm();
+            configForm.FormClosed += ConfigForm_FormClosed;
+            SetStartLocationControl();
+            this.Visible = false;
+            configForm.Show();
+        }
+
+        private void ConfigForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfigForm config = sender as ConfigForm;
+            _password = config.Password;
+            _durataMinutiCountdown2 = config.DurataMinutiCountdown2;
+            _durataOreCountdown2 = config.DurataOreCountdown2;
+            this.Visible = true;
+            AvviaCountdown(_durataMinutiCountdown1, _durataOreCountdown1);
+        }
+
+        private void SetStartLocationControl()
+        {
             this.Location = Screen.AllScreens[1].WorkingArea.Location;
             Point startLocationCentralSevenSegment = GetCentralPoint(sevenSegmentArrayCountdown);
             sevenSegmentArrayCountdown.Location = startLocationCentralSevenSegment;
@@ -32,7 +58,6 @@ namespace BombCountdown
             Point startLocationCentralTextBox = GetCentralPoint(password);
             password.Location = new Point(startLocationCentralTextBox.X, startLocationCentralTextBox.Y
                 + sevenSegmentArrayCountdown.Height + 30);
-            AvviaCountdown(1);
         }
 
         #endregion
@@ -114,7 +139,7 @@ namespace BombCountdown
 
         private void password_TextChanged(object sender, EventArgs e)
         {
-            if (password.Text == "1234")
+            if (password.Text == _password)
             {
                 timerCountDown.Stop();
                 MessageBox.Show("Bravo hai trovato la password!!!");
@@ -140,7 +165,7 @@ namespace BombCountdown
                 if (_firstTime)
                 {
                     _firstTime = false;
-                    AvviaCountdown(4,1);
+                    AvviaCountdown(_durataMinutiCountdown2, _durataOreCountdown2);
                 }
                 else
                 {
