@@ -149,7 +149,7 @@ namespace BombCountdown
 
         #endregion
 
-        #endregion
+        #region EventiTimer
 
         private void timerCountDown_Tick(object sender, EventArgs e)
         {
@@ -173,5 +173,10 @@ namespace BombCountdown
                 }
             }
         }
+
+	    #endregion
+
+        #endregion
+
     }
 }
