@@ -25,8 +25,9 @@ namespace BombCountdown
         int _durataOreCountdown2;
         int _durataMinutiCountdown2;
         string _password;
+        private bool _isFinished = false;
 
-        #endregion        
+        #endregion
 
         #region Costruttori
         public BombForm()
@@ -39,16 +40,18 @@ namespace BombCountdown
             configForm.Show();
         }
 
-        private void ConfigForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            ConfigForm config = sender as ConfigForm;
-            _password = config.Password;
-            _durataMinutiCountdown2 = config.DurataMinutiCountdown2;
-            _durataOreCountdown2 = config.DurataOreCountdown2;
-            this.Visible = true;
-            AvviaCountdown(_durataMinutiCountdown1, _durataOreCountdown1);
-        }
+        #endregion
 
+        #region Metodi privati        
+
+        private void GetParametersFromConfigForm(ConfigForm config)
+        {
+            _password = config.Password;
+            _durataOreCountdown1 = config.DurataOreCountdown1;
+            _durataMinutiCountdown1 = config.DurataMinutiCountdown1;
+            _durataOreCountdown2 = config.DurataOreCountdown2;
+            _durataMinutiCountdown2 = config.DurataMinutiCountdown2;
+        }
         private void SetStartLocationControl()
         {
             this.Location = Screen.AllScreens[1].WorkingArea.Location;
@@ -58,11 +61,7 @@ namespace BombCountdown
             Point startLocationCentralTextBox = GetCentralPoint(password);
             password.Location = new Point(startLocationCentralTextBox.X, startLocationCentralTextBox.Y
                 + sevenSegmentArrayCountdown.Height + 30);
-        }
-
-        #endregion
-
-        #region Metodi privati
+        }      
         private Point GetCentralPoint(Control control)
         {
             return new Point((this.Width / 2) - control.Width / 2,
@@ -72,18 +71,8 @@ namespace BombCountdown
         {
             if (min + ore == 0) throw new Exception("Countdown non impostato");
             _start = DateTime.Now;
-            _end = _start.AddSeconds(15);
             _end = _start.AddMinutes(min).AddHours(ore);
             timerCountDown.Start();
-            try
-            {
-
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
         }
 
         #endregion
@@ -99,7 +88,7 @@ namespace BombCountdown
 
         private void BombForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
+            if(!_isFinished) e.Cancel = true;
         }
 
         private void BombForm_KeyUp(object sender, KeyEventArgs e)
@@ -143,13 +132,15 @@ namespace BombCountdown
             {
                 timerCountDown.Stop();
                 MessageBox.Show("Bravo hai trovato la password!!!");
+                _isFinished = true;
+                this.Close();
             }
         }
 
 
         #endregion
 
-        #region EventiTimer
+        #region Eventi Timer
 
         private void timerCountDown_Tick(object sender, EventArgs e)
         {
@@ -170,11 +161,32 @@ namespace BombCountdown
                 else
                 {
                     MessageBox.Show("Boooooooom");
+                    _isFinished = true;
+                    this.Close();
                 }
             }
         }
 
-	    #endregion
+        #endregion
+
+        #region Eventi ConfigForm
+
+        private void ConfigForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            try
+            {
+                ConfigForm config = sender as ConfigForm;
+                GetParametersFromConfigForm(config);
+                this.Visible = true;
+                AvviaCountdown(_durataMinutiCountdown1, _durataOreCountdown1);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion
 
         #endregion
 

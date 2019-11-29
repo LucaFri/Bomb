@@ -18,7 +18,6 @@ namespace BombCountdown
         public int DurataMinutiCountdown1 { get; set; }
         public int DurataOreCountdown2 { get; set; }
         public int DurataMinutiCountdown2 { get; set; }
-
         public string Password { get; set; }
 
         #endregion
@@ -53,9 +52,14 @@ namespace BombCountdown
             }
         }
 
-        private void txtPassword_TextChanged(object sender, EventArgs e)
+        private void btnAvvia_Click(object sender, EventArgs e)
         {
-
+            DurataOreCountdown1 = (int)nudOreC1.Value;
+            DurataMinutiCountdown1 = (int)nudMinutiC1.Value;
+            DurataOreCountdown2 = (int)nudOreC2.Value;
+            DurataMinutiCountdown2 = (int)nudMinutiC2.Value;
+            Password = txtPassword.Text;
+            this.Close();
         }
     }
 }
