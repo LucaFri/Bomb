@@ -39,6 +39,7 @@
             this.lblPassword = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnAvvia = new System.Windows.Forms.Button();
+            this.lblError = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudOreC1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinutiC1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinutiC2)).BeginInit();
@@ -84,6 +85,11 @@
             // nudOreC1
             // 
             this.nudOreC1.Location = new System.Drawing.Point(187, 15);
+            this.nudOreC1.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.nudOreC1.Name = "nudOreC1";
             this.nudOreC1.Size = new System.Drawing.Size(62, 20);
             this.nudOreC1.TabIndex = 4;
@@ -91,6 +97,11 @@
             // nudMinutiC1
             // 
             this.nudMinutiC1.Location = new System.Drawing.Point(450, 15);
+            this.nudMinutiC1.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
             this.nudMinutiC1.Name = "nudMinutiC1";
             this.nudMinutiC1.Size = new System.Drawing.Size(62, 20);
             this.nudMinutiC1.TabIndex = 5;
@@ -98,6 +109,11 @@
             // nudMinutiC2
             // 
             this.nudMinutiC2.Location = new System.Drawing.Point(450, 39);
+            this.nudMinutiC2.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
             this.nudMinutiC2.Name = "nudMinutiC2";
             this.nudMinutiC2.Size = new System.Drawing.Size(62, 20);
             this.nudMinutiC2.TabIndex = 7;
@@ -105,6 +121,11 @@
             // nudOreC2
             // 
             this.nudOreC2.Location = new System.Drawing.Point(187, 39);
+            this.nudOreC2.Maximum = new decimal(new int[] {
+            24,
+            0,
+            0,
+            0});
             this.nudOreC2.Name = "nudOreC2";
             this.nudOreC2.Size = new System.Drawing.Size(62, 20);
             this.nudOreC2.TabIndex = 6;
@@ -121,6 +142,7 @@
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(134, 65);
+            this.txtPassword.MaxLength = 4;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(115, 20);
             this.txtPassword.TabIndex = 9;
@@ -136,11 +158,21 @@
             this.btnAvvia.UseVisualStyleBackColor = true;
             this.btnAvvia.Click += new System.EventHandler(this.btnAvvia_Click);
             // 
+            // lblError
+            // 
+            this.lblError.AutoSize = true;
+            this.lblError.ForeColor = System.Drawing.Color.Red;
+            this.lblError.Location = new System.Drawing.Point(23, 94);
+            this.lblError.Name = "lblError";
+            this.lblError.Size = new System.Drawing.Size(0, 13);
+            this.lblError.TabIndex = 11;
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(527, 120);
+            this.Controls.Add(this.lblError);
             this.Controls.Add(this.btnAvvia);
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.lblPassword);
@@ -176,5 +208,6 @@
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnAvvia;
+        private System.Windows.Forms.Label lblError;
     }
 }

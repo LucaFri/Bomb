@@ -12,6 +12,12 @@ namespace BombCountdown
 {
     public partial class ConfigForm : Form
     {
+        #region Campi privati
+
+        public bool IsValid { get; set; } = false;
+
+        #endregion
+
         #region Proprietà
 
         public int DurataOreCountdown1 { get; set; }
@@ -32,6 +38,7 @@ namespace BombCountdown
 
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
+            lblError.Text = string.Empty;
             switch (e.KeyChar)
             {
                 case '0':
@@ -59,7 +66,32 @@ namespace BombCountdown
             DurataOreCountdown2 = (int)nudOreC2.Value;
             DurataMinutiCountdown2 = (int)nudMinutiC2.Value;
             Password = txtPassword.Text;
-            this.Close();
+            IsValid = ConfigIsValid();
+            if (IsValid)
+            {
+                this.Close();
+            }
+        }
+
+        private bool ConfigIsValid()
+        {
+            bool ret = false;
+            if (DurataMinutiCountdown1 + DurataOreCountdown1 == 0)
+            {
+                lblError.Text = "Devi inserire un tempo minimo per il primo countdown";
+                return ret;
+            }
+            if (DurataMinutiCountdown2 + DurataOreCountdown2 == 0)
+            {
+                lblError.Text = "Devi inserire un tempo minimo per il secondo countdown";
+                return ret;
+            }
+            if (Password == string.Empty)
+            {
+                lblError.Text = "Devi inserire una password da indovinare";
+                return ret;
+            }
+            return true;
         }
     }
 }

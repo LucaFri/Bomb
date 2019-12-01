@@ -37,6 +37,7 @@ namespace BombCountdown
             configForm.FormClosed += ConfigForm_FormClosed;
             SetStartLocationControl();
             this.Visible = false;
+            sevenSegmentArrayCountdown.ColorDark = Color.FromArgb(20, 20, 20);
             configForm.Show();
         }
 
@@ -69,7 +70,7 @@ namespace BombCountdown
         }
         private void AvviaCountdown(int min = 0, int ore = 0)
         {
-            if (min + ore == 0) throw new Exception("Countdown non impostato");
+            //if (min + ore == 0) throw new Exception("Countdown non impostato");
             _start = DateTime.Now;
             _end = _start.AddMinutes(min).AddHours(ore);
             timerCountDown.Start();
@@ -176,9 +177,18 @@ namespace BombCountdown
             try
             {
                 ConfigForm config = sender as ConfigForm;
-                GetParametersFromConfigForm(config);
-                this.Visible = true;
-                AvviaCountdown(_durataMinutiCountdown1, _durataOreCountdown1);
+                if(!config.IsValid)
+                {
+                    _isFinished = true;
+                    this.Close();
+                }
+                else
+                {
+                    GetParametersFromConfigForm(config);
+                    this.Visible = true;
+                    AvviaCountdown(_durataMinutiCountdown1, _durataOreCountdown1);
+                }
+
             }
             catch (Exception ex)
             {
@@ -189,6 +199,5 @@ namespace BombCountdown
         #endregion
 
         #endregion
-
     }
 }

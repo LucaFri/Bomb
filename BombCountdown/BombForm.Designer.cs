@@ -40,7 +40,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.sevenSegmentArrayCountdown.ArrayCount = 8;
             this.sevenSegmentArrayCountdown.ColorBackground = System.Drawing.Color.Black;
-            this.sevenSegmentArrayCountdown.ColorDark = System.Drawing.Color.DimGray;
+            this.sevenSegmentArrayCountdown.ColorDark = System.Drawing.Color.Empty;
             this.sevenSegmentArrayCountdown.ColorLight = System.Drawing.Color.Red;
             this.sevenSegmentArrayCountdown.DecimalShow = true;
             this.sevenSegmentArrayCountdown.ElementPadding = new System.Windows.Forms.Padding(8, 5, 19, 5);
