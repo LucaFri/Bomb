@@ -1,9 +1,12 @@
-﻿using System;
+﻿using BombCountdown.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,8 +17,13 @@ namespace BombCountdown
     {
 
         #region Campi privati
-
+        SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\tictac-of-a-wall-clock.wav");
+        TimeSpan second20 = new TimeSpan(0, 0, 22);
+        TimeSpan second1 = new TimeSpan(0, 0, 1);
         bool _firstTime = true;
+        bool startTicTac = true;
+
+        bool fase1a = true;
         TimeSpan _ts;
         DateTime _start;
         DateTime _end;
@@ -37,7 +45,9 @@ namespace BombCountdown
             configForm.FormClosed += ConfigForm_FormClosed;
             SetStartLocationControl();
             this.Visible = false;
+
             sevenSegmentArrayCountdown.ColorDark = Color.FromArgb(20, 20, 20);
+            sevenSegmentArrayCountdown.ColorBackground = Color.FromArgb(4, 11, 30);
             configForm.Show();
         }
 
@@ -57,7 +67,7 @@ namespace BombCountdown
         {
             this.Location = Screen.AllScreens[1].WorkingArea.Location;
             Point startLocationCentralSevenSegment = GetCentralPoint(sevenSegmentArrayCountdown);
-            sevenSegmentArrayCountdown.Location = startLocationCentralSevenSegment;
+            //sevenSegmentArrayCountdown.Location = startLocationCentralSevenSegment;
             //sevenSegmentArrayCountdown.Value = "35.568";
             Point startLocationCentralTextBox = GetCentralPoint(password);
             password.Location = new Point(startLocationCentralTextBox.X, startLocationCentralTextBox.Y
@@ -149,6 +159,13 @@ namespace BombCountdown
             {
                 _ts = _end - DateTime.Now;
                 sevenSegmentArrayCountdown.Value = _ts.ToString(@"hh\.mm\.ss\.ff");
+                TimeSpan now = _end - DateTime.Now; 
+                if (now < second20 && startTicTac)
+                {
+                    simpleSound.SoundLocation = @"c:\Windows\Media\tictac-of-a-wall-clock.wav";
+                    simpleSound.Play();
+                    startTicTac = false;                   
+                }
             }
             else
             {
@@ -156,6 +173,9 @@ namespace BombCountdown
                 timerCountDown.Stop();
                 if (_firstTime)
                 {
+                    simpleSound.Stop();
+                    simpleSound.SoundLocation = @"c:\Windows\Media\alarm-003.wav";
+                    simpleSound.Play();
                     _firstTime = false;
                     AvviaCountdown(_durataMinutiCountdown2, _durataOreCountdown2);
                 }
@@ -188,7 +208,6 @@ namespace BombCountdown
                     this.Visible = true;
                     AvviaCountdown(_durataMinutiCountdown1, _durataOreCountdown1);
                 }
-
             }
             catch (Exception ex)
             {
@@ -199,5 +218,27 @@ namespace BombCountdown
         #endregion
 
         #endregion
+
+        private void BombForm_Load(object sender, EventArgs e)
+        {            
+            var pathApp = AppDomain.CurrentDomain.BaseDirectory;
+            var pathApp2 = Path.Combine(pathApp, "img", "fase1A.jpg");
+            this.BackgroundImage = Resources.fase1B;
+            timerImageBackGround.Start();
+        }
+
+        private void timerImageBackGround_Tick(object sender, EventArgs e)
+        {
+            if(fase1a)
+            {
+                this.BackgroundImage = Resources.fase1A;
+                fase1a = false;
+            }
+            else
+            {
+                this.BackgroundImage = Resources.fase1B;
+                fase1a = true;
+            }
+        }
     }
 }

@@ -29,10 +29,30 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.sevenSegmentArrayCountdown = new DmitryBrant.CustomControls.SevenSegmentArray();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BombForm));
             this.password = new System.Windows.Forms.TextBox();
             this.timerCountDown = new System.Windows.Forms.Timer(this.components);
+            this.sevenSegmentArrayCountdown = new DmitryBrant.CustomControls.SevenSegmentArray();
+            this.timerImageBackGround = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
+            // 
+            // password
+            // 
+            this.password.BackColor = System.Drawing.Color.DimGray;
+            this.password.Font = new System.Drawing.Font("Verdana Pro Cond", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.password.Location = new System.Drawing.Point(57, 152);
+            this.password.MaxLength = 9;
+            this.password.Name = "password";
+            this.password.Size = new System.Drawing.Size(634, 124);
+            this.password.TabIndex = 1;
+            this.password.TabStop = false;
+            this.password.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.password.TextChanged += new System.EventHandler(this.password_TextChanged);
+            this.password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.password_KeyPress);
+            // 
+            // timerCountDown
+            // 
+            this.timerCountDown.Tick += new System.EventHandler(this.timerCountDown_Tick);
             // 
             // sevenSegmentArrayCountdown
             // 
@@ -46,37 +66,24 @@
             this.sevenSegmentArrayCountdown.ElementPadding = new System.Windows.Forms.Padding(8, 5, 19, 5);
             this.sevenSegmentArrayCountdown.ElementWidth = 11;
             this.sevenSegmentArrayCountdown.ItalicFactor = 0.01F;
-            this.sevenSegmentArrayCountdown.Location = new System.Drawing.Point(0, 0);
+            this.sevenSegmentArrayCountdown.Location = new System.Drawing.Point(669, 282);
             this.sevenSegmentArrayCountdown.Name = "sevenSegmentArrayCountdown";
-            this.sevenSegmentArrayCountdown.Size = new System.Drawing.Size(900, 200);
+            this.sevenSegmentArrayCountdown.Size = new System.Drawing.Size(559, 137);
             this.sevenSegmentArrayCountdown.TabIndex = 0;
             this.sevenSegmentArrayCountdown.TabStop = false;
             this.sevenSegmentArrayCountdown.Value = null;
             // 
-            // password
+            // timerImageBackGround
             // 
-            this.password.BackColor = System.Drawing.Color.DimGray;
-            this.password.Font = new System.Drawing.Font("Verdana Pro Cond", 72F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.password.Location = new System.Drawing.Point(45, 230);
-            this.password.MaxLength = 4;
-            this.password.Name = "password";
-            this.password.Size = new System.Drawing.Size(281, 124);
-            this.password.TabIndex = 1;
-            this.password.TabStop = false;
-            this.password.Text = "0000";
-            this.password.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.password.TextChanged += new System.EventHandler(this.password_TextChanged);
-            this.password.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.password_KeyPress);
-            // 
-            // timerCountDown
-            // 
-            this.timerCountDown.Tick += new System.EventHandler(this.timerCountDown_Tick);
+            this.timerImageBackGround.Interval = 1000;
+            this.timerImageBackGround.Tick += new System.EventHandler(this.timerImageBackGround_Tick);
             // 
             // BombForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(1902, 1022);
             this.ControlBox = false;
             this.Controls.Add(this.password);
@@ -92,6 +99,7 @@
             this.TopMost = true;
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BombForm_FormClosing);
+            this.Load += new System.EventHandler(this.BombForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BombForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.BombForm_KeyUp);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.BombForm_PreviewKeyDown);
@@ -105,6 +113,7 @@
         private DmitryBrant.CustomControls.SevenSegmentArray sevenSegmentArrayCountdown;
         private System.Windows.Forms.TextBox password;
         private System.Windows.Forms.Timer timerCountDown;
+        private System.Windows.Forms.Timer timerImageBackGround;
     }
 }
 
