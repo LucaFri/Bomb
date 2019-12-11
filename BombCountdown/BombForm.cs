@@ -1,14 +1,7 @@
 ﻿using BombCountdown.Properties;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BombCountdown
@@ -18,24 +11,24 @@ namespace BombCountdown
 
         #region Campi privati
 
-        string passwordSegment = string.Empty;
-        SoundPlayer simpleSound = new SoundPlayer(@"c:\Windows\Media\tictac-of-a-wall-clock.wav");
-        TimeSpan second20 = new TimeSpan(0, 0, 22);
-        TimeSpan second1 = new TimeSpan(0, 0, 1);
         bool _firstTime = true;
-        bool startTicTac = true;
-
-        bool fase1a = true;
-        TimeSpan _ts;
-        DateTime _start;
-        DateTime _end;
-
+        bool _startTicTac = true;
+        bool _isFinished = false;
+        bool _fase2 = false;
+        bool _fase1a = true;
         int _durataOreCountdown1;
         int _durataMinutiCountdown1;
         int _durataOreCountdown2;
         int _durataMinutiCountdown2;
         string _password;
-        private bool _isFinished = false;
+        TimeSpan _second20 = new TimeSpan(0, 0, 22);
+        TimeSpan _second30 = new TimeSpan(0, 0, 30);
+        TimeSpan _second1 = new TimeSpan(0, 0, 1);
+        TimeSpan _ts;
+        DateTime _start;
+        DateTime _end;
+        DateTime? _startAlarm;
+        SoundPlayer _simpleSound = new SoundPlayer(@"c:\Windows\Media\tictac-of-a-wall-clock.wav");
 
         #endregion
 
@@ -45,13 +38,7 @@ namespace BombCountdown
             InitializeComponent();
             ConfigForm configForm = new ConfigForm();
             configForm.FormClosed += ConfigForm_FormClosed;
-            SetStartLocationControl();
             this.Visible = false;
-
-            sevenSegmentArrayCountdown.ColorDark = Color.FromArgb(20, 20, 20);
-            sevenSegmentPassword.ColorDark = Color.FromArgb(20, 20, 20);
-            sevenSegmentArrayCountdown.ColorBackground = Color.FromArgb(4, 11, 30);
-            sevenSegmentPassword.ColorBackground = Color.FromArgb(4, 11, 30);
             configForm.Show();
         }
 
@@ -69,13 +56,7 @@ namespace BombCountdown
         }
         private void SetStartLocationControl()
         {
-            //this.Location = Screen.AllScreens[1].WorkingArea.Location;
             Point startLocationCentralSevenSegment = GetCentralPoint(sevenSegmentArrayCountdown);
-            //sevenSegmentArrayCountdown.Location = startLocationCentralSevenSegment;
-            //sevenSegmentArrayCountdown.Value = "35.568";
-            //Point startLocationCentralTextBox = GetCentralPoint(password);
-            //password.Location = new Point(startLocationCentralTextBox.X, startLocationCentralTextBox.Y
-            // + sevenSegmentArrayCountdown.Height + 30);
         }
         private Point GetCentralPoint(Control control)
         {
@@ -84,7 +65,6 @@ namespace BombCountdown
         }
         private void AvviaCountdown(int min = 0, int ore = 0)
         {
-            //if (min + ore == 0) throw new Exception("Countdown non impostato");
             _start = DateTime.Now;
             _end = _start.AddMinutes(min).AddHours(ore);
             timerCountDown.Start();
@@ -96,17 +76,27 @@ namespace BombCountdown
         #region Eventi
 
         #region Eventi Form
+        private void BombForm_Load(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            int indexLastScreen = Screen.AllScreens.Length - 1;
+            this.Location = Screen.AllScreens[indexLastScreen].WorkingArea.Location;
+            sevenSegmentArrayCountdown.ColorDark = Color.FromArgb(20, 20, 20);
+            sevenSegmentPassword.ColorDark = Color.FromArgb(20, 20, 20);
+            sevenSegmentArrayCountdown.ColorBackground = Color.FromArgb(4, 11, 30);
+            sevenSegmentPassword.ColorBackground = Color.FromArgb(4, 11, 30);
+            this.BackgroundImage = Resources.fase1B;
+            timerImageBackGround.Start();
+        }
         private void BombForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyData == Keys.LWin)
                 e.Handled = true;
         }
-
         private void BombForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!_isFinished) e.Cancel = true;
         }
-
         private void BombForm_KeyUp(object sender, KeyEventArgs e)
         {
             try
@@ -184,11 +174,18 @@ namespace BombCountdown
                         e.Handled = true;
                         break;
                 }
-                if(sevenSegmentPassword.Value == _password)
+                if (sevenSegmentPassword.Value == _password)
                 {
                     timerCountDown.Stop();
-                    MessageBox.Show("Bravo hai trovato la password!!!");
+                    this.BackgroundImage = Resources.winner;
+                    this.sevenSegmentArrayCountdown.Visible = false;
+                    this.sevenSegmentPassword.Visible = false;
+                    //MessageBox.Show("Bravo hai trovato la password!!!");
                     _isFinished = true;
+                }
+                if (_fase2)
+                {
+                    this.BackgroundImage = Resources.pairs;
                 }
             }
             catch (Exception ex)
@@ -197,8 +194,6 @@ namespace BombCountdown
                 throw;
             }
         }
-
-
         private void BombForm_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
 
@@ -247,16 +242,21 @@ namespace BombCountdown
 
         private void timerCountDown_Tick(object sender, EventArgs e)
         {
+            if (_startAlarm.HasValue && (DateTime.Now - _startAlarm) > _second30)
+            {
+                _simpleSound.Stop();
+                AvviaCountdown(_durataMinutiCountdown2, _durataOreCountdown2);
+            }
             if (_end > DateTime.Now)
             {
                 _ts = _end - DateTime.Now;
                 sevenSegmentArrayCountdown.Value = _ts.ToString(@"hh\.mm\.ss\.ff");
                 TimeSpan now = _end - DateTime.Now;
-                if (now < second20 && startTicTac)
+                if (now < _second20 && _startTicTac)
                 {
-                    simpleSound.SoundLocation = @"c:\Windows\Media\tictac-of-a-wall-clock.wav";
-                    simpleSound.Play();
-                    startTicTac = false;
+                    _simpleSound.SoundLocation = @"c:\Windows\Media\tictac-of-a-wall-clock.wav";
+                    _simpleSound.Play();
+                    _startTicTac = false;
                 }
             }
             else
@@ -265,21 +265,38 @@ namespace BombCountdown
                 timerCountDown.Stop();
                 if (_firstTime)
                 {
-                    simpleSound.Stop();
-                    simpleSound.SoundLocation = @"c:\Windows\Media\alarm-003.wav";
-                    simpleSound.Play();
+                    _simpleSound.Stop();
+                    timerImageBackGround.Stop();
+                    _simpleSound.SoundLocation = @"c:\Windows\Media\alarm-003.wav";
+                    _simpleSound.Play();
+                    _fase2 = true;
                     _firstTime = false;
-                    AvviaCountdown(_durataMinutiCountdown2, _durataOreCountdown2);
+                    _startAlarm = DateTime.Now;
+                    this.BackgroundImage = Resources.faseC;
                 }
                 else
                 {
-                    MessageBox.Show("Boooooooom");
                     _isFinished = true;
+                    this.BackgroundImage = Resources.death;
+                    this.sevenSegmentArrayCountdown.Visible = false;
+                    this.sevenSegmentPassword.Visible = false;
                     this.Close();
                 }
             }
         }
-
+        private void timerImageBackGround_Tick(object sender, EventArgs e)
+        {
+            if (_fase1a)
+            {
+                this.BackgroundImage = Resources.fase1A;
+                _fase1a = false;
+            }
+            else
+            {
+                this.BackgroundImage = Resources.fase1B;
+                _fase1a = true;
+            }
+        }
         #endregion
 
         #region Eventi ConfigForm
@@ -312,32 +329,5 @@ namespace BombCountdown
 
         #endregion
 
-        private void BombForm_Load(object sender, EventArgs e)
-        {
-            this.Visible = false;
-            var pathApp = AppDomain.CurrentDomain.BaseDirectory;
-            var pathApp2 = Path.Combine(pathApp, "img", "fase1A.jpg");
-            this.BackgroundImage = Resources.fase1B;
-            timerImageBackGround.Start();
-        }
-
-        private void timerImageBackGround_Tick(object sender, EventArgs e)
-        {
-            if (fase1a)
-            {
-                this.BackgroundImage = Resources.fase1A;
-                fase1a = false;
-            }
-            else
-            {
-                this.BackgroundImage = Resources.fase1B;
-                fase1a = true;
-            }
-        }
-
-        private void sevenSegmentPassword_KeyDown(object sender, KeyEventArgs e)
-        {
-           
-        }
     }
 }

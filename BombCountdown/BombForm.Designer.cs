@@ -82,7 +82,6 @@
             this.sevenSegmentPassword.TabIndex = 2;
             this.sevenSegmentPassword.TabStop = false;
             this.sevenSegmentPassword.Value = null;
-            this.sevenSegmentPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.sevenSegmentPassword_KeyDown);
             // 
             // BombForm
             // 

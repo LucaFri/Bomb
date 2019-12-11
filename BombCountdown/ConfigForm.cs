@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BombCountdown
@@ -18,7 +11,7 @@ namespace BombCountdown
 
         #endregion
 
-        #region Proprietà
+        #region Proprietà pubbliche
 
         public int DurataOreCountdown1 { get; set; }
         public int DurataMinutiCountdown1 { get; set; }
@@ -36,6 +29,7 @@ namespace BombCountdown
 
         #endregion
 
+        #region Eventi form
         private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
         {
             try
@@ -91,7 +85,9 @@ namespace BombCountdown
                 throw;
             }
         }
+        #endregion
 
+        #region Metodi privati
         private bool ConfigIsValid()
         {
             bool ret = false;
@@ -111,6 +107,7 @@ namespace BombCountdown
                 return ret;
             }
             return true;
-        }
+        } 
+        #endregion
     }
 }
