@@ -142,7 +142,7 @@
             // txtPassword
             // 
             this.txtPassword.Location = new System.Drawing.Point(134, 65);
-            this.txtPassword.MaxLength = 9;
+            this.txtPassword.MaxLength = 90;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(115, 20);
             this.txtPassword.TabIndex = 9;
@@ -186,6 +186,7 @@
             this.Controls.Add(this.lblOreC1);
             this.Name = "ConfigForm";
             this.Text = "Configura countdown";
+            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.nudOreC1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinutiC1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMinutiC2)).EndInit();
