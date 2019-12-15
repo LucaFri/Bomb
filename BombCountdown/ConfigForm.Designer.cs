@@ -85,11 +85,6 @@
             // nudOreC1
             // 
             this.nudOreC1.Location = new System.Drawing.Point(187, 15);
-            this.nudOreC1.Maximum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             this.nudOreC1.Name = "nudOreC1";
             this.nudOreC1.Size = new System.Drawing.Size(62, 20);
             this.nudOreC1.TabIndex = 4;

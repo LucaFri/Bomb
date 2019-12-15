@@ -51,6 +51,7 @@
             this.sevenSegmentArrayCountdown.DecimalShow = true;
             this.sevenSegmentArrayCountdown.ElementPadding = new System.Windows.Forms.Padding(8, 5, 19, 5);
             this.sevenSegmentArrayCountdown.ElementWidth = 11;
+            this.sevenSegmentArrayCountdown.Enabled = false;
             this.sevenSegmentArrayCountdown.ItalicFactor = 0.01F;
             this.sevenSegmentArrayCountdown.Location = new System.Drawing.Point(669, 282);
             this.sevenSegmentArrayCountdown.Name = "sevenSegmentArrayCountdown";
@@ -75,6 +76,7 @@
             this.sevenSegmentPassword.DecimalShow = true;
             this.sevenSegmentPassword.ElementPadding = new System.Windows.Forms.Padding(8, 5, 19, 5);
             this.sevenSegmentPassword.ElementWidth = 11;
+            this.sevenSegmentPassword.Enabled = false;
             this.sevenSegmentPassword.ItalicFactor = 0.01F;
             this.sevenSegmentPassword.Location = new System.Drawing.Point(669, 581);
             this.sevenSegmentPassword.Name = "sevenSegmentPassword";
@@ -82,6 +84,7 @@
             this.sevenSegmentPassword.TabIndex = 2;
             this.sevenSegmentPassword.TabStop = false;
             this.sevenSegmentPassword.Value = null;
+            this.sevenSegmentPassword.MouseClick += new System.Windows.Forms.MouseEventHandler(this.sevenSegmentPassword_MouseClick);
             // 
             // BombForm
             // 
@@ -113,7 +116,6 @@
         }
 
         #endregion
-
         private DmitryBrant.CustomControls.SevenSegmentArray sevenSegmentArrayCountdown;
         private System.Windows.Forms.Timer timerCountDown;
         private System.Windows.Forms.Timer timerImageBackGround;
